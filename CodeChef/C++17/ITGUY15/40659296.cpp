@@ -1,0 +1,56 @@
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define int int64_t 
+
+ostream& operator << (ostream& stream, const vector<int>& v) {
+  for(int x : v) {
+    stream << x << " ";
+  }
+  return stream;
+}
+
+//ostream& operator << (ostream& stream, const int *a) {
+  //for(int i = 0; i < n; i++) {
+    //stream << *(a + i) <<  " ";
+  //}
+  //return stream;
+//}
+
+signed main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  int tt;
+  cin >> tt;
+  while(tt--) {
+    string s;
+    cin >> s;
+    int n = s.size();
+    string ans = "";
+    stack<char> t;
+    for(char ch : s) {
+      if(t.size() < 2) {
+        t.push(ch);
+        continue;
+      }
+      char B = t.top();
+      t.pop();
+      char A = t.top();
+      t.pop();
+      if(A=='a' && B=='b' && ch=='c') {
+        continue;
+      }
+      t.push(A);
+      t.push(B);
+      t.push(ch);
+    }
+    while(!t.empty()) {
+      ans += t.top();
+      t.pop();
+    }
+    reverse(ans.begin(), ans.end());
+    cout << ans << '\n';
+  }
+  return 0;
+}
