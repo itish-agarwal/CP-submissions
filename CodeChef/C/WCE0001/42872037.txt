@@ -1,0 +1,32 @@
+#include <stdio.h>
+long long mod;
+
+long long power(long long a, long long b) {
+  if(b == 0) return 1;
+  long long res = power(a, b/2);
+  res = (res * res) % mod;
+  if(b & 1) {
+    res = (res * a) % mod;
+  }
+  return res;
+}
+
+int main(void) {
+  int tt;
+  scanf("%d%lld", &tt, &mod);
+  long long fac[(int)(1e6+7)];
+  fac[0] = 1;
+  for(long long i = 1; i < (1e6+7); ++i) {
+      fac[i] = (fac[i-1]*i)%mod;
+  }
+  while(tt--) {
+    int n;
+    scanf("%d", &n);
+    printf("%lld ", fac[n]);
+    long long p = 1;
+    long long q = fac[n];
+    q = power(q, mod - 2);
+    p = (p * q) % mod;
+    printf("%lld\n", p);
+  }
+}
