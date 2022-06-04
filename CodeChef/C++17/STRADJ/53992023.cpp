@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+using namespace chrono;
+
+#ifndef ONLINE_JUDGE
+#define debug(x...) cout << "[" << #x << ": "; pr(x); cout << "]\n";
+#else
+#define debug(x...)
+#endif
+
+void pr(string x)  { cout << '\"' << x << '\"'; }
+void pr(char x)  { cout << '\'' << x << '\''; }
+void pr(long long x)  { cout << x; }
+void pr(double x)  { cout << x; }
+void pr(bool x)  { cout << x; }
+void pr(int x)  { cout << x; }
+
+template <class T, class V> void pr(const pair<T, V> &x);
+template <class T, class V> void pr(const map<T, V>& mp);
+template <class T, class... V> void pr(T t, V... v);
+template <class T> void pr(const multiset<T>& pq);
+template <class T> void pr(const vector<T>& v);
+template <class T> void pr(const set<T>& pq);
+
+template <class T, class V> void pr(const pair<T, V>& x) {
+  cout << "{"; pr(x.first); cout << ", "; pr(x.second); cout << "}";
+}
+template <class T, class V> void pr(const map<T, V>& mp) {
+  for(auto it = mp.begin(); it != mp.end(); ++it) { pr(*it); cout << " "; }
+}
+template <class T> void pr(const multiset<T>& pq) {
+  vector<T> values(pq.begin(), pq.end()); pr(values);
+}
+template <class T> void pr(const vector<T>& v) {
+  for(int i = 0; i < (int) v.size(); ++i) { pr(v[i]); cout << (i + 1 < (int) v.size() ? " " : ""); }
+}
+template <class T> void pr(const set<T>& pq) {
+  vector<T> values(pq.begin(), pq.end()); pr(values);
+}
+template <class T, class... V> void pr(T t, V... v) {
+  pr(t); if(sizeof...(v)) cout << " | "; pr(v...);
+}
+//Global space begins
+
+bool win(string s) {
+  int n = s.size();
+  if(s==string(n,'0') || s==string(n,'1'))
+    return false;
+
+  for(int i=1;i<n;++i){
+    if(s[i] != s[i-1]) {
+      string t=s;
+      t.erase(i-1,1);
+      if(!win(t))
+        return 1;
+      t=s;
+      t.erase(i,1);
+      if(!win(t))
+        return 1;
+    }
+  }
+
+  return 0;
+}
+
+int rec(int a, int b) {
+  if(a==0 || b==0)
+    return 0;
+
+  return !rec(a-1,b) || !rec(a,b-1);
+}
+void test_case() {
+  int N;
+  string S;
+  cin >> N >> S;
+
+  int x = count(S.begin(), S.end(), '1');
+  x = min(x, N - x);
+  if(x == 0) {
+    cout << "Bob" << '\n';
+    return;
+  }
+  if(x == 1) {
+    cout << "Alice" << '\n';
+    return;
+  }
+  cout << (x == 1 || N % 2 != 0 ? "Alice" : "Bob") << '\n';
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+
+  // for(int a = 1; a <= 10; ++a)
+  //   for(int b = a; b <= 30; ++b)
+  //     cout << a << " " << b << " -> " << rec(a, b) << endl;
+  int tests = 1;
+  cin >> tests;
+
+  while(tests--) 
+    test_case();
+}
